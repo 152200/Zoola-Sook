@@ -167,7 +167,7 @@ const router = createBrowserRouter(
       element: <PaymentPage />,
     },
   ],
-  { basename: '/' } // Replace "your-base-name" with the desired base path
+  { basename: '/Zoola-Sook' } // Replace "your-base-name" with the desired base path
 );
 
 function App() {
