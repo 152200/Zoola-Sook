@@ -31,9 +31,9 @@ function App() {
  
   return (
     
-    <div>
+    
      
-      <Router>
+      <Router basename='Zoola-Sook'> 
       <div className="App">
         <Modal show={modalState} onClose={ () => {dispatch(swipeState())}} props={{product:product}}/>
         <Routes>
@@ -58,7 +58,7 @@ function App() {
       </div>
      
     </Router>
-    </div>
+ 
     
   );
   
