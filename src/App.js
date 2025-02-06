@@ -53,7 +53,14 @@ function App() {
           <Route path="/" element={<MainPage/>}/>
         </Routes>
         
-        <a href="https://wa.me/972568330330" target='_blank' className='fixed bottom-10 right-10 text-green-700'><BsWhatsapp className='w-10 h-10 z-99'/></a>
+        <a 
+          href="https://wa.me/972568330330" 
+          target='_blank' 
+          rel="noopener noreferrer"
+          className='fixed bottom-10 right-10 text-green-700 hover:scale-110 transition-transform duration-200 z-[9999]'
+        >
+          <BsWhatsapp className='w-10 h-10' />
+        </a>
         <ToastContainer position="top-center" />
       </div>
      

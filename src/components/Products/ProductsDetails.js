@@ -52,28 +52,46 @@ const HandleAddToFavorites = ()=>{
     dispatch(addToFavorites(product));
 }
 
+ function replaceMainImage(imgSrc) {
+  // Get the current main image from product
+  const currentMainImage = product.image;
+  
+  // Find the index of clicked image in product.images array
+  const clickedImageIndex = product.images.findIndex(img => img === imgSrc);
+  
+  // Update the main product image
+  product.image = imgSrc;
+  
+  // Replace the clicked image in the array with the previous main image
+  product.images[clickedImageIndex] = currentMainImage;
+  
+  // Update the mainImage state to trigger re-render
+  setMainImage(imgSrc);
+ }
+
 
  function imageGallery(product){
   return (
-    <div className="flex flex-col lg:flex-row gap-4 justify-between p-4" style={{ height: "100vh" }}>
-      <div className='flex-1 h-auto'>
+    <div className="flex flex-col lg:flex-row gap-4 justify-between p-4 h-full">
+      <div className='flex-1 h-[500px] lg:h-[600px]'>
         <InnerImageZoom 
           zoomPreload={true} 
-          className="h-full rounded-lg w-full shadow-lg" 
-          src={mainImage} 
+          className="h-full w-full object-contain rounded-lg shadow-lg" 
+          src={mainImage || product?.image} 
           alt="Product Main"
+          fullscreenOnMobile={true}
         />
       </div>
       <div className="flex flex-col gap-4 w-full lg:w-1/3">
-        {/* Dynamically generate the gallery images */}
         {product ? (
           product.images.map((imgSrc, index) => (
-            <div key={index} className='w-full'>
+            <div key={index} className='w-full h-24'>
               <img
-                className="h-24 w-full object-cover rounded-lg cursor-pointer transition-transform transform hover:scale-105"
+                className={`h-full w-full object-cover rounded-lg cursor-pointer transition-transform transform hover:scale-105 
+                  ${mainImage === imgSrc ? 'border-2 border-blue-500' : ''}`}
                 src={imgSrc}
                 alt={`product-${index}`}
-                onClick={() => setMainImage(imgSrc)}
+                onClick={() => replaceMainImage(imgSrc)}
               />
             </div>
           ))

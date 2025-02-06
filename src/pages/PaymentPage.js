@@ -1,6 +1,7 @@
-import {React , useState} from 'react'
+import { React, useState } from 'react';
 import TopBar from '../components/top-bar';
 import Footer from '../components/Footer';
+import { toast } from 'react-hot-toast';
 
 const PaymentPage = () => {
     const [paymentMethods, setPaymentMethods] = useState([
@@ -41,12 +42,23 @@ const PaymentPage = () => {
       setCardDetails({ ...cardDetails, [name]: value });
     };
 
+    const validateCardDetails = (details) => {
+      const errors = {};
+      if (!details.cardNumber) errors.cardNumber = 'Card number is required';
+      if (!details.cardholderName) errors.cardholderName = 'Cardholder name is required';
+      // Add more validations
+      return errors;
+    };
 
-
-
-    
-
-
+    const handlePaymentSubmission = async (cardDetails) => {
+      try {
+        // Add payment processing logic here
+        return true;
+      } catch (error) {
+        toast.error('Payment processing failed');
+        return false;
+      }
+    };
   
     return (
       <div>

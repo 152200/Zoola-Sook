@@ -4,33 +4,27 @@ import NewArrivals from './NewArrivals'
 
 export default function ProductsSection({props}){
     return(
-        <div>
-            <div className='grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 lg:w-7/8 gap-7 mx-auto px-8 md:grid-cols-2 md:gap-8 align-middle' style={{marginTop:"2.5rem", alignItems:"center" }}>
-            {
-            props!==undefined&&
-            props.category.map((element)=>{
-            
-            return(
-              <ProductCard props={{product:element}}/>
-             );
-           
-          })}
-            {
-                props == undefined &&
-                    
-                 <>
-                   <ProductCard/>
-                   <ProductCard/>
-                   <ProductCard/>
-                   <ProductCard/>
-                   <ProductCard/>
-                   <ProductCard/>
-                   <ProductCard/>
-                 </>
-           
-            }
-        </div>
-        <NewArrivals/>
+        <div className="px-3 sm:px-4 md:px-6 lg:px-8">
+            <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6' 
+                 style={{marginTop:"2.5rem"}}>
+                {props !== undefined &&
+                    props.category.map((element) => (
+                        <ProductCard key={element._id} props={{product:element}}/>
+                    ))
+                }
+                {props == undefined && 
+                    <>
+                        <ProductCard/>
+                        <ProductCard/>
+                        <ProductCard/>
+                        <ProductCard/>
+                        <ProductCard/>
+                        <ProductCard/>
+                        <ProductCard/>
+                    </>
+                }
+            </div>
+            <NewArrivals/>
         </div>
     );
 }
