@@ -2,7 +2,7 @@ import React from 'react'
 import TopBar from '../components/top-bar';
 import BrandsBar from '../partials/BrandsBar'
 import ProductsSection from '../partials/ProductsSection.js'
-import Footer from '../components/Footer.jsx'
+import Footer from '../components/Footer.js'
 import { useSelector } from 'react-redux';
 
 export default function FavoritesPage(){

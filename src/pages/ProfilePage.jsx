@@ -9,6 +9,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItem } from "../app/features/cartSlice.js";
 import { PiEmptyLight } from "react-icons/pi";
+import { API_BASE_URL } from "../config/api.js";
 
 let flag = true;
 
@@ -48,7 +49,7 @@ const ProfilePage = () => {
   async function GetUserInfo(){
   if(isAuthenticated){
     try {
-      const res = await axios.get("http://localhost:3000/users/")
+      const res = await axios.get(`${API_BASE_URL}/users/`)
 
       if(res.status===200){
         //  toast.success(res.status)
@@ -77,7 +78,7 @@ const ProfilePage = () => {
 async function SaveUpdates(){
   if(isAuthenticated){
    try {
-    const res = await axios.put(`http://localhost:3000/users/${userId}`,{
+    const res = await axios.put(`${API_BASE_URL}/users/${userId}`,{
       name:name,
       email: email,
       phone: whatsapp,
@@ -111,7 +112,7 @@ async function SaveUpdates(){
   async function justifyStock(item){
     try {
       // Fetch the latest product data to ensure we are working with up-to-date stock
-      const productRes = await axios.get(`http://localhost:3000/products/${item.product._id}`);
+      const productRes = await axios.get(`${API_BASE_URL}/products/${item.product._id}`);
       const latestProduct = productRes.data;
   
       if (!latestProduct) {
@@ -123,7 +124,7 @@ async function SaveUpdates(){
       const updatedStock = latestProduct.countInStock + item.quantity; // Add back the quantity removed
       // toast.info(updatedStock);
       // Now make the PUT request to update the product
-      const response = await axios.put(`http://localhost:3000/products/${item.product._id}`, {
+      const response = await axios.put(`${API_BASE_URL}/products/${item.product._id}`, {
         name: latestProduct.name,
         description: latestProduct.description,
         richDescription: latestProduct.richDescription,
@@ -149,160 +150,143 @@ async function SaveUpdates(){
   }
 
   return (
-    <>
-    <TopBar/>
-    <div className="max-w-4xl mx-auto p-6">
-      {/* معلومات الحساب */}
-      <section className="bg-white  p-6 mb-6 w-1/2 mx-auto">
-        <h2 className="text-2xl font-bold mb-4">معلومات الحساب</h2>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">الاسم</label>
-          <input
-            type="text"
-            className="mt-1 block w-full   p-2"
-            value={name}
-            onChange={(e) => setName( e.target.value )}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">الإيميل</label>
-          <input
-            type="email"
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-            value={email}
-            onChange={(e) => setEmail( e.target.value )}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">واتسأب</label>
-          <input
-            type="email"
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-            value={whatsapp}
-            onChange={(e) => setWhatsapp(e.target.value )}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">المحافظة</label>
-          <input
-            type="text"
-            className="mt-1 block w-full border border-gray-300  p-2"
-            value={street}
-            onChange={(e) => setStreet( e.target.value )}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">البلدة</label>
-          <input
-            type="text"
-            className="mt-1 block w-full border border-gray-300  p-2"
-            value={apartment}
-            onChange={(e) => setApartment(e.target.value )}
-          />
-        </div>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-md" 
-         onClick={ () => SaveUpdates()}
-        >
-          حفظ التغييرات
-        </button>
-        <button 
-        style={{
-           backgroundColor:"blueviolet",marginRight:"5px"
-        }}
-        className=" text-white px-4 py-2 rounded-md " 
-         onClick={ () => GetUserInfo()}
-        >
-         تحميل المعلومات
-        </button>
-      </section>
-    
-          {/* السلة .......................................................................................................................................*/}
-          <section className="bg-white p-6 mb-6 w-1/2 mx-auto">
-          <h2 className="text-2xl font-bold mb-4">السلة</h2>
-          {cart.length > 0 ? (
-            <table className="min-w-full table-auto">
-              <thead className="bg-gray-200">
-                <tr>
-                  <th className="px-4 py-2">الاسم</th>
-                  <th className="px-4 py-2">السعر</th>
-                  <th className="px-4 py-2">الكمية</th>
-                  <th className="px-4 py-2">الصورة</th>
-                  <th className="px-4 py-2">إزالة</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cart.map((item) => (
-                  <tr key={item.product.id} className="border-b">
-                    <td className="px-4 py-2">{item.product.name}</td>
-                    <td className="px-4 py-2">{item.product.price}</td>
-                    <td className="px-4 py-2">{item.quantity}</td>
-                    <td className="px-4 py-2">
-                      <img src={item.product.image} alt={item.product.name} className="w-12 h-12" />
-                    </td>
-                    <td className="px-4 py-2">
-                      <button
-                        className="bg-red-500 text-white px-4 py-2 rounded-md"
-                        onClick={() => {
-                          justifyStock(item);
-                          dispatch(removeItem(item.product.id));}}
-                      >
-                        إزالة
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <div className="flex justify-center align-middle gap-4 whitespace-nowrap"><p>السلة فارغة</p> <PiEmptyLight style={{marginTop:"4.5px",minWidth:"15px",minHeight:"15px"}}/></div>
-          )}
-        </section>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <TopBar />
+      <div className=" sm:mx-5 lg:mx-auto px-4 py-8">
+        {/* Account Information */}
+        <div className="max-w-3xl lg:mx-auto space-y-6">
+          <section className="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">معلومات الحساب</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">الاسم</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">الإيميل</label>
+                  <input
+                    type="email"
+                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">واتسأب</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    value={whatsapp}
+                    onChange={(e) => setWhatsapp(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">المحافظة</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    value={street}
+                    onChange={(e) => setStreet(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">البلدة</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    value={apartment}
+                    onChange={(e) => setApartment(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-4 mt-6">
+              <button 
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md transition-colors duration-200"
+                onClick={() => SaveUpdates()}
+              >
+                حفظ التغييرات
+              </button>
+              <button 
+                className=" hover:bg-blue-700 text-white bg-blue-600 px-6 py-2 rounded-md transition-colors duration-200"
+                onClick={() => GetUserInfo()}
+              >
+                حمل المعلومات
+              </button>
+            </div>
+          </section>
 
-      {/* الطلبات
-      <section className="bg-white  p-6 mb-6 w-1/2 mx-auto">
-        <h2 className="text-2xl font-bold mb-4">عمليات شراء سابقة</h2>
-        <table className="min-w-full table-auto">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="px-4 py-2">رقم الطلب</th>
-              <th className="px-4 py-2">التاريخ</th>
-              <th className="px-4 py-2">الحالة</th>
-              <th className="px-4 py-2">المجموع</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order.id} className="border-b">
-                <td className="px-4 py-2">{order.id}</td>
-                <td className="px-4 py-2">{order.date}</td>
-                <td className="px-4 py-2">{order.status}</td>
-                <td className="px-4 py-2">{order.total}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section> */}
+          {/* Cart Section */}
+          <section className="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">السلة</h2>
+            {cart.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">السعر</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الكمية</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الصورة</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">إزالة</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {cart.map((item) => (
+                      <tr key={item.product.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">{item.product.name}</td>
+                        <td className="px-4 py-3 whitespace-nowrap">{item.product.price}</td>
+                        <td className="px-4 py-3 whitespace-nowrap">{item.quantity}</td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <img src={item.product.image} alt={item.product.name} className="w-16 h-16 object-cover rounded-md" />
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <button
+                            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors duration-200"
+                            onClick={() => {
+                              justifyStock(item);
+                              dispatch(removeItem(item.product.id));
+                            }}
+                          >
+                            إزالة
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="flex justify-center items-center gap-2 py-8 text-gray-500">
+                <span>السلة فارغة</span>
+                <PiEmptyLight className="w-5 h-5" />
+              </div>
+            )}
+          </section>
 
-     
-     
-      <section className="bg-white p-6 w-1/2 mx-auto">
-      <Link to='/Payment'>
-      <h2 className="text-2xl font-bold mb-4 hover:text-violet-900">معلومات الدفع</h2>
-      </Link>
-      </section>
-      <section className="bg-white p-6 w-1/2 mx-auto">
-      <button  onClick={()=> HandleLogOut()} >
-      <h2 className="text-2xl font-bold mb-4 hover:text-violet-900 flex items-center gap-2"><FaSignOutAlt className="pt-2 w-8 h-8" />تسجيل الخروج </h2>
-      </button>
-      </section>
+          {/* Logout Section */}
+          <section className="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">
+            <button 
+              onClick={() => HandleLogOut()}
+              className="w-full flex items-center justify-center gap-2 text-gray-700 hover:text-violet-900 transition-colors duration-200"
+            >
+              <FaSignOutAlt className="w-6 h-6" />
+              <span className="text-xl font-bold">تسجيل الخروج</span>
+            </button>
+          </section>
+        </div>
+      </div>
+      <Footer />
     </div>
-    <Footer/>
-    </>
   );
 };
-
-
-
-
 
 export default ProfilePage;

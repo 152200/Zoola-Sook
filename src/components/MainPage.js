@@ -2,7 +2,7 @@ import React ,{useEffect, useState}from 'react'
 import TopBar from './top-bar';
 import ProductsSlider from './ProductsSlider';
 import Cards from './Cards'
-import Footer from './Footer.jsx'
+import Footer from './Footer.js'
 // import BrandsSlider from './BrandsSlider';
 import AllProducts from './AllProducts.js';
 import axios from 'axios';
