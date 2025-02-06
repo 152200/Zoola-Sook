@@ -5,7 +5,6 @@ import "../all.min.css";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import LastProducts from "../partials/LastProducts";
-import image1 from '../images/gucci3.jpg'
 import { IoPersonSharp } from "react-icons/io5";
 import { FaOpencart } from "react-icons/fa6";
 // import ShoppingCart from './ShoppingCart';
@@ -15,8 +14,9 @@ import { TbLogout2 } from "react-icons/tb";
 import {toast} from 'react-toastify'
 import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios';
-import CartItem from "../partials/CartItems.js";
-import {deleteCart} from '../app/features/cartSlice'
+import CartSidebar from "./cart/CartSidebar";
+import NavLinks from "./navigation/NavLinks";
+import UserActions from "./user/UserActions";
 import { API_BASE_URL } from "../config/api.js";
 
 export default function TopBar() {
@@ -107,9 +107,9 @@ export default function TopBar() {
     
   }
 
- function handleDeleteCart(){
-    dispatch(deleteCart());
-  }
+//  function handleDeleteCart(){
+//     dispatch(deleteCart());
+//   }
 
 
 // justify stock section end
@@ -147,80 +147,74 @@ export default function TopBar() {
   // }
 
 
-
-
-
-
-
-
-  async function HandleBuyCart() {
-    const email = JSON.parse(localStorage.getItem('user')); // Get user email from localStorage
+  // async function HandleBuyCart() {
+  //   const email = JSON.parse(localStorage.getItem('user')); // Get user email from localStorage
   
-    if (!email) {
-      toast.error("User not found in localStorage");
-      return;
-    }
+  //   if (!email) {
+  //     toast.error("User not found in localStorage");
+  //     return;
+  //   }
   
-    try {
-      // Fetch user from the database by email (this is a custom route you may need to create)
-      const userResponse = await axios.get(`${API_BASE_URL}/users/email`, {
-        params: { email: email } // Send email as a query parameter
-      });
+  //   try {
+  //     // Fetch user from the database by email (this is a custom route you may need to create)
+  //     const userResponse = await axios.get(`${API_BASE_URL}/users/email`, {
+  //       params: { email: email } // Send email as a query parameter
+  //     });
       
-      const user = userResponse.data;
-      toast.info(user);
-      if (!user || !user._id) {
-        toast.error("User not found in the database");
-        return;
-      }
+  //     const user = userResponse.data;
+  //     toast.info(user);
+  //     if (!user || !user._id) {
+  //       toast.error("User not found in the database");
+  //       return;
+  //     }
 
-      let productsToDB = order.map((item) => ({
-        quantity: item.quantity,
-        product: item.product._id  // Assuming you want only the product ID, you can adjust this based on your need
-      }));
+  //     let productsToDB = order.map((item) => ({
+  //       quantity: item.quantity,
+  //       product: item.product._id  // Assuming you want only the product ID, you can adjust this based on your need
+  //     }));
     
-      // Prepare the order object with the fetched user ID (_id)
-      const ordero = {
-        orderItems: order,
-        totalPrice: totalPrice,
-        user: user._id, // Attach the user's _id from the database
-      };
+  //     // Prepare the order object with the fetched user ID (_id)
+  //     const ordero = {
+  //       orderItems: order,
+  //       totalPrice: totalPrice,
+  //       user: user._id, // Attach the user's _id from the database
+  //     };
   
       
-      if (isAuthenticated) {
-        try {
-          // Send the order to the server
-          const res = await axios.post(`${API_BASE_URL}/orders`, {
-            orderItems:productsToDB,
-            shippingAddress1: user.street,
-            shippingAddress2: user.apartment,
-            city: user.street,
-            zip: "P340-P379",
-            country: "Palestine",
-            phone: user.phone,
-            totalPrice: totalPrice,
-          });
+  //     if (isAuthenticated) {
+  //       try {
+  //         // Send the order to the server
+  //         const res = await axios.post(`${API_BASE_URL}/orders`, {
+  //           orderItems:productsToDB,
+  //           shippingAddress1: user.street,
+  //           shippingAddress2: user.apartment,
+  //           city: user.street,
+  //           zip: "P340-P379",
+  //           country: "Palestine",
+  //           phone: user.phone,
+  //           totalPrice: totalPrice,
+  //         });
   
-          if (res.status === 200 || res.status === 204) {
-            order.forEach((item) => {
-              justifyStock(item); // Adjust stock levels after purchase
-            });
-            dispatch(deleteCart());
-            toast.success("عملية الشراء تمت بنجاح");
+  //         if (res.status === 200 || res.status === 204) {
+  //           order.forEach((item) => {
+  //             justifyStock(item); // Adjust stock levels after purchase
+  //           });
+  //           dispatch(deleteCart());
+  //           toast.success("عملية الشراء تمت بنجاح");
   
-            // Optionally send a WhatsApp notification after a successful order
-            await axios.post(`${API_BASE_URL}/webhook/whatsapp`, ordero);
-          } else if (res.status === 400) {
-            toast.error("لقد حدث خطأ أثناء عملية الشراء يرجى المحاولة لاحقا");
-          }
-        } catch (error) {
-          toast.error(error.message);
-        }
-      }
-    } catch (error) {
-      toast.error("Error fetching user: " + error.message);
-    }
-  }
+  //           // Optionally send a WhatsApp notification after a successful order
+  //           await axios.post(`${API_BASE_URL}/webhook/whatsapp`, ordero);
+  //         } else if (res.status === 400) {
+  //           toast.error("لقد حدث خطأ أثناء عملية الشراء يرجى المحاولة لاحقا");
+  //         }
+  //       } catch (error) {
+  //         toast.error(error.message);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     toast.error("Error fetching user: " + error.message);
+  //   }
+  // }
   
 
 
@@ -268,14 +262,11 @@ export default function TopBar() {
     left: 0,
     height: "100%",
     width: "20rem", // Tailwind w-80 is 20rem or 320px
-    // backgroundColor: 'white',
+    backgroundColor: 'white',
     boxShadow:
       "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-    transform: "translate(0, 0)", // Adjust as needed
     transform: display ? "translateX(0)" : "translateX(100%)",
-    transitionProperty: "transform",
-    transitionDuration: "3000ms",
-    transitionTimingFunction: "ease-in-out",
+    transition: "transform 300ms ease-in-out",
     zIndex: 40,
   };
 
@@ -290,8 +281,9 @@ export default function TopBar() {
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
-    if(totalPrice!==0)
-    setTotalPrice(0);
+    if(totalPrice !== 0) {
+      setTotalPrice(0);
+    }
   };
   // handling Shopping Cart end
 
@@ -357,7 +349,10 @@ export default function TopBar() {
         </li>
         
           <br />
-          {listOfSections("whitespace-nowrap bar-item w-full hover:bg-gray-200 p-4","flex flex-col pr-4 w-full")}
+          <NavLinks 
+            className="flex flex-col pr-4 w-full px-3"
+            itemClassName="whitespace-nowrap bar-item w-full mx-1 hover:bg-gray-200 p-4"
+          />
         
       </ul>
       {/* menu icon area end */}
@@ -376,81 +371,29 @@ export default function TopBar() {
         </Link>
         {/* sorts of products */}
         <div className="sorts hideOnMobile">
-          <ul>
-            <li></li>
-            {listOfSections(" bar-item hideOnMobile whitespace-nowrap", "flex gap-4 items-center")}
-          </ul>
+          <NavLinks 
+            className="flex gap-4 items-center"
+            itemClassName="bar-item hideOnMobile whitespace-nowrap"
+          />
         </div>
         {/* icons of cart and favorites */}
-        <div className="cart-favorate flex items-center gap-4">
-          <Link className={baritem} to="/Favorites">
-          <div className="bg-red-600 text-white rounded-full bar-item items-center flex justify-center h-6 w-6 -mr-5 -mt-5 -mb-1" style={{color:"white"}}>{favorites.length}</div>
-            <i className="fa-regular fa-heart love-icon "></i>
-          </Link>
-          <Link className="bar-item" to='/Profile'>
-          <IoPersonSharp />
-          </Link>
-         
-          <i
-            onClick={()=>HandleClickOnCart()}
-            className="fa-solid fa-cart-shoppin bar-item flex"
-          >
-            <div className="bg-violet-900 text-xs font-medium rounded-full bar-item items-center flex justify-center h-6 w-6 -mr-3 -mt-6" style={{color:"white"}}>{order.length}</div>
-            <FaOpencart />
-          </i>
-
-          
-
-          {!isAuthenticated &&<Link className="bar-item" to="/LogIn">
-           <i class="fa-solid fa-right-to-bracket"></i>
-          
-          </Link>}
-          {isAuthenticated  && <button className="bar-item" onClick={HandleLogOut}>
-          <TbLogout2 />
-          </button>}
-        </div>
+        <UserActions 
+          isAuthenticated={isAuthenticated}
+          HandleLogOut={HandleLogOut}
+          HandleClickOnCart={HandleClickOnCart}
+          favorites={favorites}
+          order={order}
+          baritem={baritem}
+        />
       </div>
       {/* Shopping Cart area start */}
-      <div className="relative">
-        {toggleSidebar}
-        <div
-          className={` fixed top-0 left-0 h-full w-80 bg-white shadow-lg transform ${
-            isOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 ease-in-out z-40`}
-        >
-          <div className=" flex justify-between items-center p-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold">عربة المشتريات</h2>
-            <button onClick={toggleSidebar} className="text-2xl">
-              &times;
-            </button>
-          </div>
-         <div className="overflow-auto h-3/5 min-h-44 max-h-fit">
-         {order.map((element)=>{
-            
-            return(
-              <CartItem item={{product:element.product,quantity:element.quantity}}/>
-            );
-           
-          })}
-         </div>
-          <div className="absolute bottom-4 left-0 w-full px-4">
-            <p className="text-lg font-semibold">المجموع الفرعي : {totalPrice} شيكل</p>
-            <button className="w-full bg-green-500 text-white py-2 mt-4 rounded" onClick={()=>HandleBuyCart()}>
-              تأكيد الشراء
-            </button>
-            <button className="w-full bg-yellow-500 text-black py-2 mt-2 rounded" onClick={()=>handleDeleteCart()}>
-              إنهاء الطلب
-            </button>
-          </div>
-        </div>
-
-        {isOpen && (
-          <div
-            className="fixed inset-0 bg-black opacity-50 z-30"
-            onClick={toggleSidebar}
-          ></div>
-        )}
-      </div>
+      <CartSidebar 
+        isOpen={isOpen}
+        toggleSidebar={toggleSidebar}
+        totalPrice={totalPrice}
+        setTotalPrice={setTotalPrice}
+        justifyStock={justifyStock}
+      />
 
       {/* Shopping Cart area end */}
       {/* lastProducts area start */}

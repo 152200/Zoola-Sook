@@ -77,9 +77,8 @@
     right: 0;
     height: 100%;
     width: 15rem;
-    z-index: 999;
-    background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
+    z-index: 9999;
+    background-color: white;
     box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
     list-style: none;
     display: none;

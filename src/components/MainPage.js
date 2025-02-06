@@ -9,6 +9,7 @@ import axios from 'axios';
 import {toast} from 'react-toastify';
 import { Link, Element } from 'react-scroll';
 import { API_BASE_URL } from '../config/api.js';
+import BrandsBar from '../partials/BrandsBar.js';
 
 
 export default function MainPage(){
@@ -54,6 +55,7 @@ export default function MainPage(){
      <div className="scroll-smooth"> 
         <TopBar/>
        <ProductsSlider id="section1"/>  
+       <BrandsBar/>
         <br />
         <br />
         {/* <BrandsSlider/> */}

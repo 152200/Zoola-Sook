@@ -21,6 +21,7 @@ import Modal from "./components/Modal";
 import { swipeState } from './app/features/modalSlice.js';
 import { BsWhatsapp } from "react-icons/bs";
 import { BASE_NAME } from './config/basename.js';
+import SelectedBrand from './pages/SelectedBrand';
 
 
 
@@ -52,6 +53,7 @@ function App() {
           <Route path="/Profile" element={<ProfilePage/>}/>
           <Route path="/Payment" element={<PaymentPage/>}/>
           <Route path="/" element={<MainPage/>}/>
+          <Route path="/brands/:brandName" element={<SelectedBrand/>} />
         </Routes>
         
         <a 
