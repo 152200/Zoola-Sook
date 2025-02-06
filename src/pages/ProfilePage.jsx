@@ -152,7 +152,7 @@ async function SaveUpdates(){
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <TopBar />
-      <div className=" sm:mx-5 lg:mx-auto px-4 py-8">
+      <div className=" sm:mx-5  px-4 py-8">
         {/* Account Information */}
         <div className="max-w-3xl lg:mx-auto space-y-6">
           <section className="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">

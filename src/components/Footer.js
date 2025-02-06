@@ -6,7 +6,7 @@ export default function Footer() {
     
           return (
            
-                    <div className=" mt-4 pt-10 shadow-sm px-10 bg-violet-900 text-white font-bold  ">
+                    <div className=" mt-4 pt-10 shadow-sm px-10 bg-violet-900 text-white font-bold py-5 ">
                          <div className='flex justify-center flex-wrap gap-11 lg:mx-auto sm:mx-5'>
                               
                                    <div className="flex flex-col p-2 align-middle gap-2"  >
