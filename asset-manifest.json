@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Zoola-Sook/static/css/main.3583973f.css",
-    "main.js": "/Zoola-Sook/static/js/main.739fad9e.js",
+    "main.css": "/Zoola-Sook/static/css/main.904c7c29.css",
+    "main.js": "/Zoola-Sook/static/js/main.4fd5e4f6.js",
     "static/media/backGroundVideo.gif": "/Zoola-Sook/static/media/backGroundVideo.dbc2fa334e2ca177b30d.gif",
     "static/media/image1.jpg": "/Zoola-Sook/static/media/image1.3afe57211efbf0812d28.jpg",
     "static/media/image2.jpg": "/Zoola-Sook/static/media/image2.c0d8e67423b6da12a411.jpg",
@@ -9,7 +9,6 @@
     "static/media/gucci11.jpg": "/Zoola-Sook/static/media/gucci11.cdc23f08bea1d04314e9.jpg",
     "static/media/fa-brands-400.ttf": "/Zoola-Sook/static/media/fa-brands-400.60127e352b7a11f7f1bc.ttf",
     "static/media/fa-solid-900.woff2": "/Zoola-Sook/static/media/fa-solid-900.4d986b00ff9ca3828fbd.woff2",
-    "static/media/gucci3.jpg": "/Zoola-Sook/static/media/gucci3.66c5e5b8667eb28223b7.jpg",
     "static/media/fa-brands-400.woff2": "/Zoola-Sook/static/media/fa-brands-400.455ea818179b4def0c43.woff2",
     "static/media/sameer-logo.png": "/Zoola-Sook/static/media/sameer-logo.cb5e019d663da0e5ed17.png",
     "static/media/fa-regular-400.ttf": "/Zoola-Sook/static/media/fa-regular-400.eb91f7b948a42799f678.ttf",
@@ -18,11 +17,11 @@
     "static/media/fa-v4compatibility.ttf": "/Zoola-Sook/static/media/fa-v4compatibility.c8e090db312b0bea2aa2.ttf",
     "static/media/fa-v4compatibility.woff2": "/Zoola-Sook/static/media/fa-v4compatibility.cf7f5903d06b79ad60f1.woff2",
     "index.html": "/Zoola-Sook/index.html",
-    "main.3583973f.css.map": "/Zoola-Sook/static/css/main.3583973f.css.map",
-    "main.739fad9e.js.map": "/Zoola-Sook/static/js/main.739fad9e.js.map"
+    "main.904c7c29.css.map": "/Zoola-Sook/static/css/main.904c7c29.css.map",
+    "main.4fd5e4f6.js.map": "/Zoola-Sook/static/js/main.4fd5e4f6.js.map"
   },
   "entrypoints": [
-    "static/css/main.3583973f.css",
-    "static/js/main.739fad9e.js"
+    "static/css/main.904c7c29.css",
+    "static/js/main.4fd5e4f6.js"
   ]
 }
