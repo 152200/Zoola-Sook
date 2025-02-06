@@ -3,6 +3,8 @@ import axios from "axios";
 import './style.css'
 import TopBar from "./components/top-bar";
 import {toast} from 'react-toastify'
+import { BASE_NAME } from "./config/basename";
+import { API_BASE_URL } from "./config/api";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -28,7 +30,7 @@ export default function SignUp() {
     try {
       if (flag) {
         // send data
-        let res = await axios.post("https://zola-backend-q9aq.onrender.com/users/register", {
+        let res = await axios.post(`${API_BASE_URL}/users/register`, {
           name: name,
           email: email,
           password: password,
@@ -41,7 +43,10 @@ export default function SignUp() {
         // console.dir(res)
         if (res.status === 200) {
           toast.success("تم تسجيل المستخدم");
-          window.location.pathname = "/LogIn";
+          if(BASE_NAME.length > 0)
+          window.location.pathname = `/${BASE_NAME}/LogIn`;
+          else 
+           window.location.pathname = '/LogIn';
         }
         else if(res.status === 422){
             setEmailError(422);

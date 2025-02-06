@@ -20,6 +20,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import Modal from "./components/Modal";
 import { swipeState } from './app/features/modalSlice.js';
 import { BsWhatsapp } from "react-icons/bs";
+import { BASE_NAME } from './config/basename.js';
 
 
 
@@ -33,7 +34,7 @@ function App() {
     
     
      
-      <Router basename='Zoola-Sook'> 
+      <Router basename={`${BASE_NAME}`}> 
       <div className="App">
         <Modal show={modalState} onClose={ () => {dispatch(swipeState())}} props={{product:product}}/>
         <Routes>

@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios';
 import CartItem from "../partials/CartItems.js";
 import {deleteCart} from '../app/features/cartSlice'
+import { API_BASE_URL } from "../config/api.js";
 
 export default function TopBar() {
 
@@ -63,7 +64,7 @@ export default function TopBar() {
   async function justifyStock(item,flag){
     try {
       // Fetch the latest product data to ensure we are working with up-to-date stock
-      const productRes = await axios.get(`https://zola-backend-q9aq.onrender.com/products/${item.product._id}`);
+      const productRes = await axios.get(`${API_BASE_URL}/products/${item.product._id}`);
       const latestProduct = productRes.data;
   
       if (!latestProduct) {
@@ -77,7 +78,7 @@ export default function TopBar() {
       
       try {
         
-      const response = await axios.put(`https://zola-backend-q9aq.onrender.com/products/${item.product._id}`, {
+      const response = await axios.put(`${API_BASE_URL}/products/${item.product._id}`, {
         name: latestProduct.name,
         description: latestProduct.description,
         richDescription: latestProduct.richDescription,
@@ -123,7 +124,7 @@ export default function TopBar() {
 
   //     if(isAuthenticated){
   //       try {
-  //         const res = await axios.post('http://localhost:3000/orders',ordero);
+  //         const res = await axios.post(`${API_BASE_URL}/orders`,ordero);
 
   //         // console.log(res.status)
   //         if(res.status==200 || res.status==204){
@@ -132,7 +133,7 @@ export default function TopBar() {
   //           })       
   //           dispatch(deleteCart());
   //           toast.success("عملية الشراء تمت بنجاح");
-  //           const mail = await axios.post('http://localhost:3000/webhook/whatsapp',ordero)
+  //           const mail = await axios.post(`${API_BASE_URL}/webhook/whatsapp`,ordero)
   //         }
   //         else if(res.status==400){
   //             toast.error("لقد حدث أثناء عملية الشراء يرجى المحاولة لاحقا")
@@ -162,7 +163,7 @@ export default function TopBar() {
   
     try {
       // Fetch user from the database by email (this is a custom route you may need to create)
-      const userResponse = await axios.get(`https://zola-backend-q9aq.onrender.com/users/email`, {
+      const userResponse = await axios.get(`${API_BASE_URL}/users/email`, {
         params: { email: email } // Send email as a query parameter
       });
       
@@ -189,7 +190,7 @@ export default function TopBar() {
       if (isAuthenticated) {
         try {
           // Send the order to the server
-          const res = await axios.post('https://zola-backend-q9aq.onrender.com/orders', {
+          const res = await axios.post(`${API_BASE_URL}/orders`, {
             orderItems:productsToDB,
             shippingAddress1: user.street,
             shippingAddress2: user.apartment,
@@ -208,7 +209,7 @@ export default function TopBar() {
             toast.success("عملية الشراء تمت بنجاح");
   
             // Optionally send a WhatsApp notification after a successful order
-            await axios.post('https://zola-backend-q9aq.onrender.com/webhook/whatsapp', ordero);
+            await axios.post(`${API_BASE_URL}/webhook/whatsapp`, ordero);
           } else if (res.status === 400) {
             toast.error("لقد حدث خطأ أثناء عملية الشراء يرجى المحاولة لاحقا");
           }
@@ -224,35 +225,6 @@ export default function TopBar() {
 
 
   
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -366,7 +338,7 @@ export default function TopBar() {
   }
 
   return (
-    <div>
+    <div className="shadow-lg shadow-violet-700">
       {/* <ShoppingCart/> */}
       {/* side bar area start */}
       <ul className="side-bar" style={sideMenuStyle}>

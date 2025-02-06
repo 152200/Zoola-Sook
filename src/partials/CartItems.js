@@ -4,13 +4,15 @@ import {toast} from 'react-toastify'
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { removeItem } from '../app/features/cartSlice';
+import { API_BASE_URL } from '../config/api';
+
 export default function CartItem({item}){
  
 
   async function justifyStock(item){
     try {
       // Fetch the latest product data to ensure we are working with up-to-date stock
-      const productRes = await axios.get(`https://zola-backend-q9aq.onrender.com/products/${item.product._id}`);
+      const productRes = await axios.get(`${API_BASE_URL}/products/${item.product._id}`);
       const latestProduct = productRes.data;
   
       if (!latestProduct) {
@@ -22,7 +24,7 @@ export default function CartItem({item}){
       const updatedStock = latestProduct.countInStock + item.quantity; // Add back the quantity removed
       // toast.info(updatedStock);
       // Now make the PUT request to update the product
-      const response = await axios.put(`https://zola-backend-q9aq.onrender.com/products/${item.product._id}`, {
+      const response = await axios.put(`${API_BASE_URL}/products/${item.product._id}`, {
         name: latestProduct.name,
         description: latestProduct.description,
         richDescription: latestProduct.richDescription,

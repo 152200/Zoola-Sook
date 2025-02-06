@@ -43,7 +43,7 @@ function MakeCard(source, props) {
   }
 
   return (
-    <div className="bg-center bg-no-repeat bg-cover group rounded-lg h-[260px] sm:h-[200px] md:h-[380px] lg:h-[420px] w-full cursor-pointer relative" 
+    <div className="bg-center bg-no-repeat bg-cover group rounded-lg h-[260px] sm:h-[200px] md:h-[380px] lg:h-[520px] w-full cursor-pointer relative" 
          style={{
            backgroundImage: `url(${props ? props.product.image : gucci1})`
          }}>

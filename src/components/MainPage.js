@@ -8,6 +8,8 @@ import AllProducts from './AllProducts.js';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 import { Link, Element } from 'react-scroll';
+import { API_BASE_URL } from '../config/api.js';
+
 
 export default function MainPage(){
 
@@ -35,7 +37,7 @@ export default function MainPage(){
 
   async function getAllProducts(){
       try {
-          const res  = await axios.get('https://zola-backend-q9aq.onrender.com/products')
+          const res  = await axios.get(`${API_BASE_URL}/products`)
        
           setProducto(res.data)
         

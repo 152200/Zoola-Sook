@@ -4,7 +4,9 @@ import './style.css';
 import {Link ,useNavigate ,Navigate} from 'react-router-dom'
 import TopBar from "./components/top-bar";
 import {Context} from './index.js';
-import {toast} from 'react-toastify'
+import {toast} from 'react-toastify';
+import { BASE_NAME } from "./config/basename.js";
+import { API_BASE_URL } from "./config/api.js";
 
 // // Create the context
 // export const AuthContext = createContext();
@@ -58,7 +60,7 @@ export default function LogIn() {
       
         try {
           const res = await axios.post(
-            "https://zola-backend-q9aq.onrender.com/users/login",
+            `${API_BASE_URL}/users/login`,
             // {
             //   withCredentials: true,
             // },
@@ -72,7 +74,7 @@ export default function LogIn() {
     
           if (res.status === 200) {
             
-            window.location.pathname = "/";
+            
            
              // Handle Login Success Authentication 
 
@@ -82,6 +84,7 @@ export default function LogIn() {
              toast.success("تم تسجيل الدخول" ,{
               autoClose:5000
             })
+            window.location.pathname = `/${BASE_NAME}`;
         } else  {
            
             setEmailError("Unprocessable entity - 422");
